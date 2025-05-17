@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Персональный Сайт</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Добавляем базовые стили для демонстрации */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .section {
+            padding: 60px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+        }
+        .timeline-item {
+            margin-bottom: 40px;
+            padding-left: 30px;
+            border-left: 2px solid #3498db;
+            position: relative;
+        }
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3498db;
+        }
+        .portfolio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .portfolio-item {
+            flex: 1;
+            min-width: 300px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .accomplishments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .accomplishment-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .blog-post {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .post-date {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .project-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .project-content {
+            padding: 20px;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .tag {
+            background: #e0e0e0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <img src="images/logo.png" alt="Фотография владельца" class="profile-photo">
+        <h1>Добро пожаловать на мой сайт!</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">О себе</a></li>
+                <li><a href="#skills">Навыки</a></li>
+                <li><a href="#experience">Опыт</a></li>
+                <li><a href="#portfolio">Портфолио</a></li>
+                <li><a href="#projects">Проекты</a></li>
+                <li><a href="#accomplishments">Достижения</a></li>
+                <li><a href="#blog">Блог</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="about" class="section">
+    <div class="container">
+        <h2>О себе</h2>
+        <p>Привет! Меня зовут Данил Смольняков. Я занимаюсь веб-дизайном и разработкой сайтов. Люблю создавать удобные и эстетически приятные проекты.</p>
+        <h3>Интересы</h3>
+        <p>Фронтенд-разработка, UI/UX дизайн, технологии, спорт, музыка, научное программирование.</p>
+        <h3>Образование</h3>
+        <p>Высшее образование в области информационных технологий, специализация - научные вычисления.</p>
+    </div>
+</section>
+
+<section id="skills" class="section">
+    <div class="container">
+        <h2>Навыки</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h3>Технические навыки</h3>
+                <ul>
+                    <li>HTML5, CSS3, JavaScript</li>
+                    <li>React, Vue.js</li>
+                    <li>Node.js, Express</li>
+                    <li>Git, GitHub</li>
+                    <li>Webpack, Gulp</li>
+                    <li>Adobe Photoshop, Figma</li>
+                    <li>Python (NumPy, SciPy, Pandas)</li>
+                    <li>MATLAB, R</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Профессиональные навыки</h3>
+                <ul>
+                    <li>Адаптивный и кросс-браузерный дизайн</li>
+                    <li>Оптимизация производительности</li>
+                    <li>Работа с API</li>
+                    <li>Тестирование и отладка</li>
+                    <li>Основы SEO</li>
+                    <li>Научные вычисления</li>
+                    <li>Визуализация данных</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Языки</h3>
+                <ul>
+                    <li>Русский (родной)</li>
+                    <li>Английский (B2)</li>
+                    <li>Немецкий (A2)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="experience" class="section">
+    <div class="container">
+        <h2>Опыт работы</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Веб-разработчик</h3>
+                <p class="company">Digital Solutions Inc.</p>
+                <p class="date">2023 - настоящее время</p>
+                <ul>
+                    <li>Разработка и поддержка клиентских веб-приложений</li>
+                    <li>Оптимизация производительности существующих проектов</li>
+                    <li>Участие в code review</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>Фронтенд-разработчик (стажировка)</h3>
+                <p class="company">TechStart</p>
+                <p class="date">2022 - 2023</p>
+                <ul>
+                    <li>Создание компонентов интерфейса на React</li>
+                    <li>Работа с REST API</li>
+                    <li>Участие в командных проектах</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>Фриланс проекты</h3>
+                <p class="company">Самостоятельная работа</p>
+                <p class="date">2020 - 2022</p>
+                <ul>
+                    <li>Разработка лендингов и корпоративных сайтов</li>
+                    <li>Создание пользовательских интерфейсов</li>
+                    <li>Консультирование клиентов</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class="section">
+    <div class="container">
+        <h2>Портфолио</h2>
+        <div class="portfolio-items">
+            <div class="portfolio-item">
+                <img src="images/3.jpg" alt="Проект 1">
+                <h3>Современный минимализм</h3>
+                <p>Дизайн квартиры в стиле минимализм с акцентом на функциональность и эргономику.</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="images/1.jpg" alt="Проект 2">
+                <h3>Лофт с индустриальными нотками</h3>
+                <p>Просторное жилое пространство с элементами кирпичной кладки и металлическими конструкциями.</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="images/2.jpg" alt="Проект 3">
+                <h3>Скандинавская гармония</h3>
+                <p>Легкость и свет - ключевые элементы интерьера в скандинавском стиле.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section">
+    <div class="container">
+        <h2>Персональные проекты</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=DataViz" alt="Визуализация данных" class="project-image">
+                <div class="project-content">
+                    <h3>Анализ и визуализация научных данных</h3>
+                    <p>Интерактивная платформа для анализа научных данных с использованием Python и D3.js</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">D3.js</span>
+                        <span class="tag">Data Science</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=MathTools" alt="Математические инструменты" class="project-image">
+                <div class="project-content">
+                    <h3>Библиотека математических инструментов</h3>
+                    <p>Набор функций для численных методов и математического моделирования</p>
+                    <div class="project-tags">
+                        <span class="tag">MATLAB</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">Алгоритмы</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=Research" alt="Научный журнал" class="project-image">
+                <div class="project-content">
+                    <h3>Электронный научный журнал</h3>
+                    <p>Веб-приложение для публикации и рецензирования научных статей</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=Simulation" alt="Моделирование" class="project-image">
+                <div class="project-content">
+                    <h3>Система моделирования физических процессов</h3>
+                    <p>Интерактивное моделирование физических экспериментов с визуализацией</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">WebGL</span>
+                        <span class="tag">Физика</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="accomplishments" class="section">
+    <div class="container">
+        <h2>Достижения</h2>
+        <div class="accomplishments-list">
+            <div class="accomplishment-item">
+                <h3>Победитель хакатона "WebDev Challenge 2023"</h3>
+                <p>Первое место в номинации "Лучший пользовательский интерфейс".</p>
+            </div>
+            <div class="accomplishment-item">
+                <h3>Сертификация Google UX Design</h3>
+                <p>Успешное завершение профессионального курса по UX/UI дизайну.</p>
+            </div>
+            <div class="accomplishment-item">
+                <h3>Open Source вклад</h3>
+                <p>Активное участие в разработке популярной UI-библиотеки.</p>
+            </div>
+            <div class="accomplishment-item">
+                <h3>Публикация научной статьи</h3>
+                <p>Статья "Применение методов машинного обучения в анализе физических процессов" в журнале "Научные вычисления".</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="blog" class="section">
+    <div class="container">
+        <h2>Блог</h2>
+        
+        <!-- Новый пост о прошедшей неделе -->
+        <article class="blog-post">
+            <h3>Неделя в обзоре: научные исследования и разработка</h3>
+            <p class="post-date">Опубликовано: 18 мая 2025</p>
+            <p>Прошедшая неделя была насыщенной и продуктивной. Вот основные моменты:</p>
+            <h4>Научная работа</h4>
+            <ul>
+                <li>Завершил первый этап исследования по применению методов машинного обучения в физике конденсированного состояния</li>
+                <li>Подготовил данные для публикации в открытом доступе</li>
+                <li>Провел сравнительный анализ эффективности различных алгоритмов</li>
+            </ul>
+            
+            <h4>Разработка</h4>
+            <ul>
+                <li>Реализовал новый модуль визуализации для научного проекта</li>
+                <li>Оптимизировал производительность кода, ускорив вычисления на 15%</li>
+                <li>Исправил несколько критических багов в интерфейсе</li>
+            </ul>
+            
+            <h4>Обучение</h4>
+            <ul>
+                <li>Изучал новые методы оптимизации в Python</li>
+                <li>Прошел курс по параллельным вычислениям</li>
+                <li>Исследовал возможности WebAssembly для научных вычислений</li>
+            </ul>
+            
+            <p>Планы на следующую неделю: начать работу над новой статьей и улучшить интерфейс аналитического инструмента.</p>
+        </article>
+
+        <!-- Пост о языках научного программирования -->
+        <article class="blog-post">
+            <h3>Языки научного программирования: обзор и сравнение</h3>
+            <p class="post-date">Опубликовано: 12 мая 2025</p>
+            <p>Научное программирование требует специальных инструментов. Рассмотрим основные языки и их применение:</p>
+            
+            <h4>Python</h4>
+            <p>Стандарт де-факто в научных вычислениях. Основные преимущества:</p>
+            <ul>
+                <li>Богатая экосистема (NumPy, SciPy, Pandas, Matplotlib)</li>
+                <li>Простота изучения и читаемость кода</li>
+                <li>Широкая поддержка сообщества</li>
+                <li>Интеграция с другими языками</li>
+            </ul>
+            
+            <h4>MATLAB</h4>
+            <p>Мощный инструмент для инженерных и математических расчетов:</p>
+            <ul>
+                <li>Отличные встроенные математические функции</li>
+                <li>Удобная работа с матрицами</li>
+                <li>Широкие возможности визуализации</li>
+                <li>Но: проприетарный и дорогой</li>
+            </ul>
+            
+            <h4>R</h4>
+            <p>Специализированный язык для статистики и анализа данных:</p>
+            <ul>
+                <li>Мощные статистические пакеты</li>
+                <li>Отличные возможности визуализации (ggplot2)</li>
+                <li>Активно используется в биологии и социальных науках</li>
+            </ul>
+            
+            <h4>Julia</h4>
+            <p>Перспективный язык для научных вычислений:</p>
+            <ul>
+                <li>Высокая производительность (близка к C)</li>
+                <li>Простой синтаксис, похожий на Python</li>
+                <li>Разработан специально для научных задач</li>
+                <li>Но: молодая экосистема</li>
+            </ul>
+            
+            <h4>Сравнительная таблица</h4>
+            <table border="1" cellpadding="5" cellspacing="0">
+                <tr>
+                    <th>Язык</th>
+                    <th>Производительность</th>
+                    <th>Простота</th>
+                    <th>Экосистема</th>
+                    <th>Лучшее применение</th>
+                </tr>
+                <tr>
+                    <td>Python</td>
+                    <td>Средняя</td>
+                    <td>Высокая</td>
+                    <td>Очень богатая</td>
+                    <td>Общие научные вычисления, ML</td>
+                </tr>
+                <tr>
+                    <td>MATLAB</td>
+                    <td>Высокая</td>
+                    <td>Высокая</td>
+                    <td>Богатая</td>
+                    <td>Инженерные расчеты, моделирование</td>
+                </tr>
+                <tr>
+                    <td>R</td>
+                    <td>Низкая</td>
+                    <td>Средняя</td>
+                    <td>Богатая (статистика)</td>
+                    <td>Статистический анализ</td>
+                </tr>
+                <tr>
+                    <td>Julia</td>
+                    <td>Очень высокая</td>
+                    <td>Высокая</td>
+                    <td>Развивающаяся</td>
+                    <td>Высокопроизводительные вычисления</td>
+                </tr>
+            </table>
+            
+            <p>Выбор языка зависит от конкретной задачи. Для большинства научных задач сегодня Python - оптимальный выбор, но в некоторых областях специализированные языки могут быть более эффективны.</p>
+        </article>
+
+        <!-- Существующие посты -->
+        <article class="blog-post">
+            <h3>Неделя в обзоре: научные ресурсы и разработка</h3>
+            <p class="post-date">Опубликовано: 15 мая 2025</p>
+            <p>На этой неделе я зарегистрировался на нескольких важных научных платформах:</p>
+            <ul>
+                <li><a href="https://elibrary.ru/" target="_blank">eLibrary</a> - российская научная электронная библиотека</li>
+                <li><a href="https://scholar.google.com/" target="_blank">Google Scholar</a> - поиск научных публикаций</li>
+                <li><a href="https://orcid.org/" target="_blank">ORCID</a> - идентификатор научного автора</li>
+                <li><a href="https://www.mendeley.com/" target="_blank">Mendeley</a> - система управления библиографией</li>
+                <li><a href="https://www.researchgate.net/" target="_blank">ResearchGate</a> - социальная сеть для ученых</li>
+                <li><a href="https://www.academia.edu/" target="_blank">Academia.edu</a> - платформа для научных работ</li>
+                <li><a href="https://arxiv.org/" target="_blank">arXiv</a> - архив препринтов научных статей</li>
+                <li><a href="https://github.com/" target="_blank">GitHub</a> - платформа для IT-проектов</li>
+            </ul>
+        </article>
+
+        <article class="blog-post">
+            <h3>Эффективное оформление научных отчетов</h3>
+            <p class="post-date">Опубликовано: 10 мая 2025</p>
+            <p>Ключевые принципы оформления отчетов:</p>
+            <ul>
+                <li>Четкая структура (введение, методы, результаты, выводы)</li>
+                <li>Научный, но понятный язык</li>
+                <li>Единообразие оформления</li>
+                <li>Читаемые графики и таблицы</li>
+                <li>Правильное цитирование источников</li>
+            </ul>
+        </article>
+    </div>
+</section>
+
+<section id="contact" class="section">
+    <div class="container">
+        <h2>Контакты</h2>
+        <ul>
+            <li>Email: <a href="mailto:tipokin147in@gmail.com">tipokin147in@gmail.com</a></li>
+            <li>Телефон: +7 (999) 667-18-03</li>
+            <li>GitHub: <a href="https://github.com/aURAsC" target="_blank">github.com/aURAsC</a></li>
+            <li>LinkedIn: <a href="#" target="_blank">linkedin.com/in/yourprofile</a></li>
+            <li>Stepik_course: <a href="#" target="_blank">https://stepik.org/cert/2856194</a></li>
+            <li>Научные профили:
+                <ul>
+                    <li><a href="https://elibrary.ru/" target="_blank">eLibrary</a></li>
+                    <li><a href="https://scholar.google.com/" target="_blank">Google Scholar</a></li>
+                    <li><a href="https://orcid.org/" target="_blank">ORCID</a></li>
+                    <li><a href="https://www.researchgate.net/" target="_blank">ResearchGate</a></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>Форма обратной связи</h3>
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Тема:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Сообщение:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Смольняков Данил. Все права защищены.</p>
+        <p>Последнее обновление: 18 мая 2025</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+    // Простой скрипт для плавной прокрутки
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Обработка формы
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Сообщение отправлено! Я свяжусь с вами в ближайшее время.');
+        this.reset();
+    });
+</script>
+</body>
+</html>
