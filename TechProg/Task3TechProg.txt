@@ -1,0 +1,266 @@
+#define _USE_MATH_DEFINES
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <vector>
+#include <iostream>
+#include <numeric> 
+
+class Renderer;
+
+class Renderer {
+public:
+    virtual ~Renderer() {}
+    virtual void drawPoint(float x, float y) const = 0;
+    virtual void drawLine(float x1, float y1, float x2, float y2) const = 0;
+    virtual void drawPolygon(const float* x_coords, const float* y_coords, int count) const = 0;
+};
+
+void rotate_coords(float& px, float& py, float angle_rad, float cx, float cy) {
+    float s_angle = std::sin(angle_rad);
+    float c_angle = std::cos(angle_rad);
+    px -= cx;
+    py -= cy;
+    float x_new = px * c_angle - py * s_angle;
+    float y_new = px * s_angle + py * c_angle;
+    px = x_new + cx;
+    py = y_new + cy;
+}
+
+class Point {
+protected:
+    bool m_visible = true;
+public:
+    virtual ~Point() {}
+    virtual void draw(Renderer* renderer) const = 0;
+    virtual void move(float dx, float dy) = 0;
+    virtual void rotate(float angle_degrees) = 0;
+
+    void hide() { m_visible = false; }
+    void show() { m_visible = true; }
+    bool isVisible() const { return m_visible; }
+};
+
+class Dot : public Point {
+public:
+    float x, y;
+    Dot(float _x = 0.f, float _y = 0.f) : x(_x), y(_y) {}
+
+    void draw(Renderer* renderer) const override;
+    void move(float dx, float dy) override {
+        if (!m_visible) return;
+        x += dx;
+        y += dy;
+    }
+    void rotate(float /*angle_degrees*/) override { /* No change */ }
+};
+
+class Line : public Point {
+public:
+    Dot p1, p2;
+    Line(const Dot& _p1, const Dot& _p2) : p1(_p1), p2(_p2) {}
+    Line(float x1, float y1, float x2, float y2) : p1(x1, y1), p2(x2, y2) {}
+
+    void draw(Renderer* renderer) const override;
+    void move(float dx, float dy) override {
+        if (!m_visible) return;
+        p1.move(dx, dy);
+        p2.move(dx, dy);
+    }
+    void rotate(float angle_degrees) override {
+        if (!m_visible || angle_degrees == 0.0f) return;
+        float angle_rad = angle_degrees * static_cast<float>(M_PI) / 180.0f;
+        float cx = (p1.x + p2.x) / 2.0f;
+        float cy = (p1.y + p2.y) / 2.0f;
+        rotate_coords(p1.x, p1.y, angle_rad, cx, cy);
+        rotate_coords(p2.x, p2.y, angle_rad, cx, cy);
+    }
+};
+
+class Quadrilateral : public virtual Point {
+protected:
+    Dot m_p1, m_p2, m_p3, m_p4;
+
+public:
+    Quadrilateral(const Dot& p1, const Dot& p2, const Dot& p3, const Dot& p4)
+        : m_p1(p1), m_p2(p2), m_p3(p3), m_p4(p4) {}
+
+    Quadrilateral() : m_p1(), m_p2(), m_p3(), m_p4() {}
+
+    void draw(Renderer* renderer) const override {
+        if (!isVisible()) return;
+        const float xs[] = { m_p1.x, m_p2.x, m_p3.x, m_p4.x };
+        const float ys[] = { m_p1.y, m_p2.y, m_p3.y, m_p4.y };
+        renderer->drawPolygon(xs, ys, 4);
+    }
+
+    void move(float dx, float dy) override {
+        if (!isVisible()) return;
+        m_p1.move(dx, dy);
+        m_p2.move(dx, dy);
+        m_p3.move(dx, dy);
+        m_p4.move(dx, dy);
+    }
+
+    void rotate(float angle_degrees) override {
+        if (!isVisible() || angle_degrees == 0.0f) return;
+        float angle_rad = angle_degrees * static_cast<float>(M_PI) / 180.0f;
+        float cx = (m_p1.x + m_p2.x + m_p3.x + m_p4.x) / 4.0f;
+        float cy = (m_p1.y + m_p2.y + m_p3.y + m_p4.y) / 4.0f;
+        rotate_coords(m_p1.x, m_p1.y, angle_rad, cx, cy);
+        rotate_coords(m_p2.x, m_p2.y, angle_rad, cx, cy);
+        rotate_coords(m_p3.x, m_p3.y, angle_rad, cx, cy);
+        rotate_coords(m_p4.x, m_p4.y, angle_rad, cx, cy);
+    }
+
+    const Dot& getP1() const { return m_p1; }
+    const Dot& getP2() const { return m_p2; }
+    const Dot& getP3() const { return m_p3; }
+    const Dot& getP4() const { return m_p4; }
+};
+
+class Parallelogram : public virtual Quadrilateral {
+public:
+    Parallelogram(const Dot& a, const Dot& b, const Dot& c)
+        : Quadrilateral(a, b, c, Dot(a.x + (c.x - b.x), a.y + (c.y - b.y))) {}
+
+    Parallelogram(const Dot& p1, const Dot& p2, const Dot& p3, const Dot& p4)
+        : Quadrilateral(p1, p2, p3, p4) {}
+
+    Parallelogram() : Quadrilateral() {}
+};
+
+class Rectangle : public virtual Parallelogram {
+public:
+    Rectangle(float x, float y, float w, float h)
+        : Quadrilateral(Dot(x, y), Dot(x + w, y), Dot(x + w, y + h), Dot(x, y + h))
+        , Parallelogram(Dot(x, y), Dot(x + w, y), Dot(x + w, y + h), Dot(x, y + h)) {}
+
+    Rectangle(const Dot& p1, const Dot& p2, const Dot& p3, const Dot& p4)
+        : Quadrilateral(p1, p2, p3, p4), Parallelogram(p1, p2, p3, p4) {}
+
+    Rectangle() : Parallelogram() {}
+};
+
+class Rhombus : public virtual Parallelogram {
+public:
+    Rhombus(float cx, float cy, float d1, float d2)
+        : Quadrilateral(Dot(cx, cy - d2 / 2.f), Dot(cx + d1 / 2.f, cy),
+            Dot(cx, cy + d2 / 2.f), Dot(cx - d1 / 2.f, cy))
+        , Parallelogram(Dot(cx, cy - d2 / 2.f), Dot(cx + d1 / 2.f, cy),
+            Dot(cx, cy + d2 / 2.f), Dot(cx - d1 / 2.f, cy)) {}
+
+    Rhombus(const Dot& p1, const Dot& p2, const Dot& p3, const Dot& p4)
+        : Quadrilateral(p1, p2, p3, p4), Parallelogram(p1, p2, p3, p4) {}
+
+    Rhombus() : Parallelogram() {}
+};
+
+class Square : public Rectangle, public Rhombus {
+public:
+    Square(float x, float y, float side)
+        : Quadrilateral(Dot(x, y), Dot(x + side, y), Dot(x + side, y + side), Dot(x, y + side))
+        , Rectangle(Dot(x, y), Dot(x + side, y), Dot(x + side, y + side), Dot(x, y + side))
+        , Rhombus(Dot(x, y), Dot(x + side, y), Dot(x + side, y + side), Dot(x, y + side)) {}
+
+    Square() : Rectangle(), Rhombus() {}
+};
+
+class SFMLRenderer : public Renderer {
+    sf::RenderWindow* m_window;
+public:
+    SFMLRenderer(sf::RenderWindow* win) : m_window(win) {}
+    
+    void drawPoint(float x, float y) const override {
+        sf::CircleShape pt_shape(2.f);
+        pt_shape.setFillColor(sf::Color::White);
+        pt_shape.setOrigin(2.f, 2.f);
+        pt_shape.setPosition(x, y);
+        m_window->draw(pt_shape);
+    }
+    
+    void drawLine(float x1, float y1, float x2, float y2) const override {
+        sf::Vertex line_arr[] = {
+            sf::Vertex(sf::Vector2f(x1, y1), sf::Color::White),
+            sf::Vertex(sf::Vector2f(x2, y2), sf::Color::White)
+        };
+        m_window->draw(line_arr, 2, sf::Lines);
+    }
+    
+    void drawPolygon(const float* xs, const float* ys, int n) const override {
+        if (n < 3) return;
+        sf::ConvexShape poly_shape;
+        poly_shape.setPointCount(n);
+        for (int i = 0; i < n; ++i) {
+            poly_shape.setPoint(i, sf::Vector2f(xs[i], ys[i]));
+        }
+        poly_shape.setFillColor(sf::Color(0, 100, 255, 150));
+        poly_shape.setOutlineColor(sf::Color::White);
+        poly_shape.setOutlineThickness(1.f);
+        m_window->draw(poly_shape);
+    }
+};
+
+void Dot::draw(Renderer* renderer) const {
+    if (isVisible()) renderer->drawPoint(x, y);
+}
+
+void Line::draw(Renderer* renderer) const {
+    if (isVisible()) renderer->drawLine(p1.x, p1.y, p2.x, p2.y);
+}
+
+int main() {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Shapes - Virtual Inheritance");
+    window.setFramerateLimit(60);
+    SFMLRenderer renderer(&window);
+
+    Dot pt_obj(700.f, 100.f);
+    Line line_obj(400.f, 50.f, 550.f, 200.f);
+    Square square_obj(50.f, 50.f, 80.f);
+    Rhombus rhombus_obj(250.f, 150.f, 120.f, 90.f);
+    Rectangle rect_obj(50.f, 250.f, 100.f, 60.f);
+    Parallelogram para_obj(Dot(400.f, 300.f), Dot(500.f, 320.f), Dot(480.f, 380.f));
+
+    std::vector<Point*> shapes;
+    shapes.push_back(&pt_obj);
+    shapes.push_back(&line_obj);
+    shapes.push_back(&square_obj);
+    shapes.push_back(&rhombus_obj);
+    shapes.push_back(&rect_obj);
+    shapes.push_back(&para_obj);
+
+    sf::Clock clock;
+    float total_time_elapsed = 0.f;
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) window.close();
+        }
+
+        float dt = clock.restart().asSeconds();
+        total_time_elapsed += dt;
+
+        square_obj.rotate(45.f * dt);
+        rhombus_obj.move(std::sin(total_time_elapsed * 2.f) * 50.f * dt, 0.f);
+        line_obj.rotate(-30.f * dt);
+        para_obj.rotate(15.f * dt);
+        rect_obj.move(0, std::cos(total_time_elapsed * 1.5f) * 30.f * dt);
+
+        if (pt_obj.isVisible() && total_time_elapsed > 5.f) {
+            pt_obj.hide();
+        }
+        if (total_time_elapsed > 10.f && total_time_elapsed < 10.1f) {
+            if (!pt_obj.isVisible()) pt_obj.show();
+        }
+
+        window.clear(sf::Color(30, 30, 30));
+
+        for (const Point* shape : shapes) {
+            shape->draw(&renderer);
+        }
+
+        window.display();
+    }
+
+    return 0;
+}
