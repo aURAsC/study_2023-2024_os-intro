@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Персональный Сайт | My Personal Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Добавляем базовые стили для демонстрации */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            position: relative;
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .section {
+            padding: 60px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+        }
+        .timeline-item {
+            margin-bottom: 40px;
+            padding-left: 30px;
+            border-left: 2px solid #3498db;
+            position: relative;
+        }
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3498db;
+        }
+        .portfolio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .portfolio-item {
+            flex: 1;
+            min-width: 300px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .accomplishments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .accomplishment-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .blog-post {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .post-date {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .project-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .project-content {
+            padding: 20px;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .tag {
+            background: #e0e0e0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .language-switcher button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .language-switcher button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .language-switcher button.active {
+            background: white;
+            color: #2c3e50;
+        }
+        [lang="en"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="language-switcher">
+            <button class="active" onclick="switchLanguage('ru')">Рус</button>
+            <button onclick="switchLanguage('en')">Eng</button>
+        </div>
+        <img src="images/logo.png" alt="Фотография владельца" class="profile-photo">
+        <h1 lang="ru">Добро пожаловать на мой сайт!</h1>
+        <h1 lang="en">Welcome to my website!</h1>
+        <nav>
+            <ul>
+                <li><a href="#about" lang="ru">О себе</a><a href="#about" lang="en">About</a></li>
+                <li><a href="#skills" lang="ru">Навыки</a><a href="#skills" lang="en">Skills</a></li>
+                <li><a href="#experience" lang="ru">Опыт</a><a href="#experience" lang="en">Experience</a></li>
+                <li><a href="#portfolio" lang="ru">Портфолио</a><a href="#portfolio" lang="en">Portfolio</a></li>
+                <li><a href="#projects" lang="ru">Проекты</a><a href="#projects" lang="en">Projects</a></li>
+                <li><a href="#accomplishments" lang="ru">Достижения</a><a href="#accomplishments" lang="en">Achievements</a></li>
+                <li><a href="#blog" lang="ru">Блог</a><a href="#blog" lang="en">Blog</a></li>
+                <li><a href="#contact" lang="ru">Контакты</a><a href="#contact" lang="en">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="about" class="section">
+    <div class="container">
+        <h2 lang="ru">О себе</h2>
+        <h2 lang="en">About Me</h2>
+        <p lang="ru">Привет! Меня зовут Данил Смольняков. Я занимаюсь веб-дизайном и разработкой сайтов. Люблю создавать удобные и эстетически приятные проекты.</p>
+        <p lang="en">Hello! My name is Danil Smolnyakov. I'm a web designer and developer. I enjoy creating user-friendly and aesthetically pleasing projects.</p>
+        
+        <h3 lang="ru">Интересы</h3>
+        <h3 lang="en">Interests</h3>
+        <p lang="ru">Фронтенд-разработка, UI/UX дизайн, технологии, спорт, музыка, научное программирование.</p>
+        <p lang="en">Frontend development, UI/UX design, technology, sports, music, scientific programming.</p>
+        
+        <h3 lang="ru">Образование</h3>
+        <h3 lang="en">Education</h3>
+        <p lang="ru">Высшее образование в области информационных технологий, специализация - научные вычисления.</p>
+        <p lang="en">Higher education in Information Technology, specialization - scientific computing.</p>
+    </div>
+</section>
+
+<section id="skills" class="section">
+    <div class="container">
+        <h2 lang="ru">Навыки</h2>
+        <h2 lang="en">Skills</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h3 lang="ru">Технические навыки</h3>
+                <h3 lang="en">Technical Skills</h3>
+                <ul>
+                    <li>HTML5, CSS3, JavaScript</li>
+                    <li>React, Vue.js</li>
+                    <li>Node.js, Express</li>
+                    <li>Git, GitHub</li>
+                    <li>Webpack, Gulp</li>
+                    <li>Adobe Photoshop, Figma</li>
+                    <li>Python (NumPy, SciPy, Pandas)</li>
+                    <li>MATLAB, R</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3 lang="ru">Профессиональные навыки</h3>
+                <h3 lang="en">Professional Skills</h3>
+                <ul>
+                    <li lang="ru">Адаптивный и кросс-браузерный дизайн</li>
+                    <li lang="en">Responsive and cross-browser design</li>
+                    <li lang="ru">Оптимизация производительности</li>
+                    <li lang="en">Performance optimization</li>
+                    <li lang="ru">Работа с API</li>
+                    <li lang="en">API integration</li>
+                    <li lang="ru">Тестирование и отладка</li>
+                    <li lang="en">Testing and debugging</li>
+                    <li lang="ru">Основы SEO</li>
+                    <li lang="en">SEO basics</li>
+                    <li lang="ru">Научные вычисления</li>
+                    <li lang="en">Scientific computing</li>
+                    <li lang="ru">Визуализация данных</li>
+                    <li lang="en">Data visualization</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3 lang="ru">Языки</h3>
+                <h3 lang="en">Languages</h3>
+                <ul>
+                    <li lang="ru">Русский (родной)</li>
+                    <li lang="en">Russian (native)</li>
+                    <li lang="ru">Английский (B2)</li>
+                    <li lang="en">English (B2)</li>
+                    <li lang="ru">Немецкий (A2)</li>
+                    <li lang="en">German (A2)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="experience" class="section">
+    <div class="container">
+        <h2 lang="ru">Опыт работы</h2>
+        <h2 lang="en">Work Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3 lang="ru">Веб-разработчик</h3>
+                <h3 lang="en">Web Developer</h3>
+                <p class="company">Digital Solutions Inc.</p>
+                <p class="date">2023 - <span lang="ru">настоящее время</span><span lang="en">present</span></p>
+                <ul>
+                    <li lang="ru">Разработка и поддержка клиентских веб-приложений</li>
+                    <li lang="en">Development and maintenance of client web applications</li>
+                    <li lang="ru">Оптимизация производительности существующих проектов</li>
+                    <li lang="en">Performance optimization of existing projects</li>
+                    <li lang="ru">Участие в code review</li>
+                    <li lang="en">Participation in code reviews</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3 lang="ru">Фронтенд-разработчик (стажировка)</h3>
+                <h3 lang="en">Frontend Developer (Internship)</h3>
+                <p class="company">TechStart</p>
+                <p class="date">2022 - 2023</p>
+                <ul>
+                    <li lang="ru">Создание компонентов интерфейса на React</li>
+                    <li lang="en">Creating UI components with React</li>
+                    <li lang="ru">Работа с REST API</li>
+                    <li lang="en">Working with REST API</li>
+                    <li lang="ru">Участие в командных проектах</li>
+                    <li lang="en">Participation in team projects</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3 lang="ru">Фриланс проекты</h3>
+                <h3 lang="en">Freelance Projects</h3>
+                <p class="company" lang="ru">Самостоятельная работа</p>
+                <p class="company" lang="en">Self-employed</p>
+                <p class="date">2020 - 2022</p>
+                <ul>
+                    <li lang="ru">Разработка лендингов и корпоративных сайтов</li>
+                    <li lang="en">Development of landing pages and corporate websites</li>
+                    <li lang="ru">Создание пользовательских интерфейсов</li>
+                    <li lang="en">Creating user interfaces</li>
+                    <li lang="ru">Консультирование клиентов</li>
+                    <li lang="en">Client consulting</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class="section">
+    <div class="container">
+        <h2 lang="ru">Портфолио</h2>
+        <h2 lang="en">Portfolio</h2>
+        <div class="portfolio-items">
+            <div class="portfolio-item">
+                <img src="images/3.jpg" alt="Проект 1">
+                <h3 lang="ru">Современный минимализм</h3>
+                <h3 lang="en">Modern Minimalism</h3>
+                <p lang="ru">Дизайн квартиры в стиле минимализм с акцентом на функциональность и эргономику.</p>
+                <p lang="en">Apartment design in minimalist style with focus on functionality and ergonomics.</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="images/1.jpg" alt="Проект 2">
+                <h3 lang="ru">Лофт с индустриальными нотками</h3>
+                <h3 lang="en">Loft with Industrial Touches</h3>
+                <p lang="ru">Просторное жилое пространство с элементами кирпичной кладки и металлическими конструкциями.</p>
+                <p lang="en">Spacious living area with brickwork elements and metal structures.</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="images/2.jpg" alt="Проект 3">
+                <h3 lang="ru">Скандинавская гармония</h3>
+                <h3 lang="en">Scandinavian Harmony</h3>
+                <p lang="ru">Легкость и свет - ключевые элементы интерьера в скандинавском стиле.</p>
+                <p lang="en">Lightness and brightness - key elements of Scandinavian style interior.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section">
+    <div class="container">
+        <h2 lang="ru">Персональные проекты</h2>
+        <h2 lang="en">Personal Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=DataViz" alt="Визуализация данных" class="project-image">
+                <div class="project-content">
+                    <h3 lang="ru">Анализ и визуализация научных данных</h3>
+                    <h3 lang="en">Scientific Data Analysis and Visualization</h3>
+                    <p lang="ru">Интерактивная платформа для анализа научных данных с использованием Python и D3.js</p>
+                    <p lang="en">Interactive platform for scientific data analysis using Python and D3.js</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">D3.js</span>
+                        <span class="tag" lang="ru">Анализ данных</span>
+                        <span class="tag" lang="en">Data Science</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=MathTools" alt="Математические инструменты" class="project-image">
+                <div class="project-content">
+                    <h3 lang="ru">Библиотека математических инструментов</h3>
+                    <h3 lang="en">Mathematical Tools Library</h3>
+                    <p lang="ru">Набор функций для численных методов и математического моделирования</p>
+                    <p lang="en">Collection of functions for numerical methods and mathematical modeling</p>
+                    <div class="project-tags">
+                        <span class="tag">MATLAB</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag" lang="ru">Алгоритмы</span>
+                        <span class="tag" lang="en">Algorithms</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=Research" alt="Научный журнал" class="project-image">
+                <div class="project-content">
+                    <h3 lang="ru">Электронный научный журнал</h3>
+                    <h3 lang="en">Electronic Scientific Journal</h3>
+                    <p lang="ru">Веб-приложение для публикации и рецензирования научных статей</p>
+                    <p lang="en">Web application for publishing and peer-reviewing scientific articles</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <img src="https://via.placeholder.com/400x200?text=Simulation" alt="Моделирование" class="project-image">
+                <div class="project-content">
+                    <h3 lang="ru">Система моделирования физических процессов</h3>
+                    <h3 lang="en">Physical Process Simulation System</h3>
+                    <p lang="ru">Интерактивное моделирование физических экспериментов с визуализацией</p>
+                    <p lang="en">Interactive simulation of physical experiments with visualization</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">WebGL</span>
+                        <span class="tag" lang="ru">Физика</span>
+                        <span class="tag" lang="en">Physics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="accomplishments" class="section">
+    <div class="container">
+        <h2 lang="ru">Достижения</h2>
+        <h2 lang="en">Achievements</h2>
+        <div class="accomplishments-list">
+            <div class="accomplishment-item">
+                <h3 lang="ru">Победитель хакатона "WebDev Challenge 2023"</h3>
+                <h3 lang="en">Winner of "WebDev Challenge 2023" Hackathon</h3>
+                <p lang="ru">Первое место в номинации "Лучший пользовательский интерфейс".</p>
+                <p lang="en">First place in "Best User Interface" nomination.</p>
+            </div>
+            <div class="accomplishment-item">
+                <h3 lang="ru">Сертификация Google UX Design</h3>
+                <h3 lang="en">Google UX Design Certification</h3>
+                <p lang="ru">Успешное завершение профессионального курса по UX/UI дизайну.</p>
+                <p lang="en">Successful completion of professional UX/UI design course.</p>
+            </div>
+            <div class="accomplishment-item">
+                <h3 lang="ru">Open Source вклад</h3>
+                <h3 lang="en">Open Source Contribution</h3>
+                <p lang="ru">Активное участие в разработке популярной UI-библиотеки.</p>
+                <p lang="en">Active participation in development of popular UI library.</p>
+            </div>
+            <div class="accomplishment-item">
+                <h3 lang="ru">Публикация научной статьи</h3>
+                <h3 lang="en">Scientific Article Publication</h3>
+                <p lang="ru">Статья "Применение методов машинного обучения в анализе физических процессов" в журнале "Научные вычисления".</p>
+                <p lang="en">Article "Application of Machine Learning Methods in Analysis of Physical Processes" in "Scientific Computing" journal.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="blog" class="section">
+    <div class="container">
+        <h2 lang="ru">Блог</h2>
+        <h2 lang="en">Blog</h2>
+        
+        <!-- Новый пост о прошедшей неделе -->
+        <article class="blog-post">
+            <h3 lang="ru">Неделя в обзоре: научные исследования и разработка</h3>
+            <h3 lang="en">Week in Review: Scientific Research and Development</h3>
+            <p class="post-date" lang="ru">Опубликовано: 18 мая 2025</p>
+            <p class="post-date" lang="en">Published: May 18, 2025</p>
+            
+            <div lang="ru">
+                <p>Прошедшая неделя была насыщенной и продуктивной. Вот основные моменты:</p>
+                <h4>Научная работа</h4>
+                <ul>
+                    <li>Завершил первый этап исследования по применению методов машинного обучения в физике конденсированного состояния</li>
+                    <li>Подготовил данные для публикации в открытом доступе</li>
+                    <li>Провел сравнительный анализ эффективности различных алгоритмов</li>
+                </ul>
+                
+                <h4>Разработка</h4>
+                <ul>
+                    <li>Реализовал новый модуль визуализации для научного проекта</li>
+                    <li>Оптимизировал производительность кода, ускорив вычисления на 15%</li>
+                    <li>Исправил несколько критических багов в интерфейсе</li>
+                </ul>
+                
+                <h4>Обучение</h4>
+                <ul>
+                    <li>Изучал новые методы оптимизации в Python</li>
+                    <li>Прошел курс по параллельным вычислениям</li>
+                    <li>Исследовал возможности WebAssembly для научных вычислений</li>
+                </ul>
+                
+                <p>Планы на следующую неделю: начать работу над новой статьей и улучшить интерфейс аналитического инструмента.</p>
+            </div>
+            
+            <div lang="en">
+                <p>The past week has been busy and productive. Here are the highlights:</p>
+                <h4>Scientific Work</h4>
+                <ul>
+                    <li>Completed the first stage of research on applying machine learning methods in condensed matter physics</li>
+                    <li>Prepared data for open-access publication</li>
+                    <li>Conducted comparative analysis of different algorithms' efficiency</li>
+                </ul>
+                
+                <h4>Development</h4>
+                <ul>
+                    <li>Implemented new visualization module for scientific project</li>
+                    <li>Optimized code performance, speeding up calculations by 15%</li>
+                    <li>Fixed several critical bugs in the interface</li>
+                </ul>
+                
+                <h4>Learning</h4>
+                <ul>
+                    <li>Studied new optimization methods in Python</li>
+                    <li>Completed a course on parallel computing</li>
+                    <li>Explored WebAssembly capabilities for scientific computing</li>
+                </ul>
+                
+                <p>Plans for next week: start working on a new article and improve the analytical tool interface.</p>
+            </div>
+        </article>
+
+        <!-- Пост о языках научного программирования -->
+        <article class="blog-post">
+            <h3 lang="ru">Языки научного программирования: обзор и сравнение</h3>
+            <h3 lang="en">Scientific Programming Languages: Overview and Comparison</h3>
+            <p class="post-date" lang="ru">Опубликовано: 12 мая 2025</p>
+            <p class="post-date" lang="en">Published: May 12, 2025</p>
+            
+            <div lang="ru">
+                <p>Научное программирование требует специальных инструментов. Рассмотрим основные языки и их применение:</p>
+                
+                <h4>Python</h4>
+                <p>Стандарт де-факто в научных вычислениях. Основные преимущества:</p>
+                <ul>
+                    <li>Богатая экосистема (NumPy, SciPy, Pandas, Matplotlib)</li>
+                    <li>Простота изучения и читаемость кода</li>
+                    <li>Широкая поддержка сообщества</li>
+                    <li>Интеграция с другими языками</li>
+                </ul>
+                
+                <h4>MATLAB</h4>
+                <p>Мощный инструмент для инженерных и математических расчетов:</p>
+                <ul>
+                    <li>Отличные встроенные математические функции</li>
+                    <li>Удобная работа с матрицами</li>
+                    <li>Широкие возможности визуализации</li>
+                    <li>Но: проприетарный и дорогой</li>
+                </ul>
+                
+                <h4>R</h4>
+                <p>Специализированный язык для статистики и анализа данных:</p>
+                <ul>
+                    <li>Мощные статистические пакеты</li>
+                    <li>Отличные возможности визуализации (ggplot2)</li>
+                    <li>Активно используется в биологии и социальных науках</li>
+                </ul>
+                
+                <h4>Julia</h4>
+                <p>Перспективный язык для научных вычислений:</p>
+                <ul>
+                    <li>Высокая производительность (близка к C)</li>
+                    <li>Простой синтаксис, похожий на Python</li>
+                    <li>Разработан специально для научных задач</li>
+                    <li>Но: молодая экосистема</li>
+                </ul>
+            </div>
+            
+            <div lang="en">
+                <p>Scientific programming requires specialized tools. Let's review the main languages and their applications:</p>
+                
+                <h4>Python</h4>
+                <p>De facto standard in scientific computing. Main advantages:</p>
+                <ul>
+                    <li>Rich ecosystem (NumPy, SciPy, Pandas, Matplotlib)</li>
+                    <li>Easy to learn and read</li>
+                    <li>Strong community support</li>
+                    <li>Integration with other languages</li>
+                </ul>
+                
+                <h4>MATLAB</h4>
+                <p>Powerful tool for engineering and mathematical calculations:</p>
+                <ul>
+                    <li>Excellent built-in mathematical functions</li>
+                    <li>Convenient matrix operations</li>
+                    <li>Extensive visualization capabilities</li>
+                    <li>But: proprietary and expensive</li>
+                </ul>
+                
+                <h4>R</h4>
+                <p>Specialized language for statistics and data analysis:</p>
+                <ul>
+                    <li>Powerful statistical packages</li>
+                    <li>Great visualization (ggplot2)</li>
+                    <li>Widely used in biology and social sciences</li>
+                </ul>
+                
+                <h4>Julia</h4>
+                <p>Promising language for scientific computing:</p>
+                <ul>
+                    <li>High performance (close to C)</li>
+                    <li>Simple Python-like syntax</li>
+                    <li>Designed specifically for scientific tasks</li>
+                    <li>But: young ecosystem</li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section id="contact" class="section">
+    <div class="container">
+        <h2 lang="ru">Контакты</h2>
+        <h2 lang="en">Contact</h2>
+        <ul>
+            <li>Email: <a href="mailto:tipokin147in@gmail.com">tipokin147in@gmail.com</a></li>
+            <li lang="ru">Телефон: +7 (999) 667-18-03</li>
+            <li lang="en">Phone: +7 (999) 667-18-03</li>
+            <li>GitHub: <a href="https://github.com/aURAsC" target="_blank">github.com/aURAsC</a></li>
+            <li>LinkedIn: <a href="#" target="_blank">linkedin.com/in/yourprofile</a></li>
+            <li>Stepik_course: <a href="#" target="_blank">https://stepik.org/cert/2856194</a></li>
+            <li>
+                <span lang="ru">Научные профили:</span>
+                <span lang="en">Research profiles:</span>
+                <ul>
+                    <li><a href="https://elibrary.ru/" target="_blank">eLibrary</a></li>
+                    <li><a href="https://scholar.google.com/" target="_blank">Google Scholar</a></li>
+                    <li><a href="https://orcid.org/" target="_blank">ORCID</a></li>
+                    <li><a href="https://www.researchgate.net/" target="_blank">ResearchGate</a></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3 lang="ru">Форма обратной связи</h3>
+        <h3 lang="en">Contact Form</h3>
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="name" lang="ru">Имя:</label>
+                <label for="name" lang="en">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject" lang="ru">Тема:</label>
+                <label for="subject" lang="en">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="message" lang="ru">Сообщение:</label>
+                <label for="message" lang="en">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" lang="ru">Отправить</button>
+            <button type="submit" lang="en">Send</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p lang="ru">&copy; 2025 Смольняков Данил. Все права защищены.</p>
+        <p lang="en">&copy; 2025 Danil Smolnyakov. All rights reserved.</p>
+        <p lang="ru">Последнее обновление: 18 мая 2025</p>
+        <p lang="en">Last updated: May 18, 2025</p>
+    </div>
+</footer>
+
+<script>
+    // Простой скрипт для плавной прокрутки
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Обработка формы
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert(document.querySelector('[lang="' + currentLang + '"]').textContent.includes('ru') ? 
+              'Сообщение отправлено! Я свяжусь с вами в ближайшее время.' : 
+              'Message sent! I will contact you soon.');
+        this.reset();
+    });
+    
+    // Переключение языков
+    let currentLang = 'ru';
+    
+    function switchLanguage(lang) {
+        currentLang = lang;
+        
+        // Скрыть все элементы другого языка
+        document.querySelectorAll('[lang]').forEach(el => {
+            el.style.display = 'none';
+        });
+        
+        // Показать элементы текущего языка
+        document.querySelectorAll('[lang="' + lang + '"]').forEach(el => {
+            el.style.display = '';
+        });
+        
+        // Обновить активную кнопку переключателя
+        document.querySelectorAll('.language-switcher button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`.language-switcher button[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+    }
+    
+    // Инициализация языка при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        switchLanguage('ru');
+    });
+</script>
+</body>
+</html>
