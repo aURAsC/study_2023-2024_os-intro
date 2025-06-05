@@ -1,0 +1,168 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class Student {
+public:
+    string name;
+    string surname;
+    int age;
+    string group;
+    double average_score;
+};
+
+vector<Student> students;
+
+void addStudent() {
+    Student newStudent;
+    cout << "enter name: ";
+    cin >> newStudent.name;
+    cout << "enter surname: ";
+    cin >> newStudent.surname;
+    cout << "enter age: ";
+    cin >> newStudent.age;
+    cout << "enter group: ";
+    cin >> newStudent.group;
+    cout << "enter average grade: ";
+    cin >> newStudent.average_score;
+
+    students.push_back(newStudent);
+    cout << "student has been added" << endl;
+}
+
+void saveToFile(const string& filename) {
+    ofstream file(filename);
+    if (!file.is_open()) {
+        cerr << "error open the file to save" << endl;
+        return;
+    }
+
+    for (const auto& student : students) {
+        file << student.name << " "
+            << student.surname << " "
+            << student.age << " "
+            << student.group << " "
+            << student.average_score << endl;
+    }
+
+    file.close();
+    cout << "info saved to file " << filename << endl;
+}
+
+void loadFromFile(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "error open the file to read" << endl;
+        return;
+    }
+
+    students.clear();
+    string line;
+
+    while (getline(file, line)) {
+        istringstream iss(line);
+        Student student;
+
+        if (iss >> student.name >> student.surname >> student.age >> student.group >> student.average_score) {
+            students.push_back(student);
+        }
+    }
+
+    file.close();
+    cout << "info downloaded from the file" << filename << endl;
+}
+
+void updateStudent(int index) {
+    if (index < 0 || index >= students.size()) {
+        cout << "false index" << endl;
+        return;
+    }
+
+    cout << "enter new info for student:" << endl;
+    cout << "name: ";
+    cin >> students[index].name;
+    cout << "surname: ";
+    cin >> students[index].surname;
+    cout << "age: ";
+    cin >> students[index].age;
+    cout << "group: ";
+    cin >> students[index].group;
+    cout << "average grade: ";
+    cin >> students[index].average_score;
+
+    cout << "info of student is updated" << endl;
+}
+
+void deleteStudent(int index) {
+    if (index < 0 || index >= students.size()) {
+        cout << "false index" << endl;
+        return;
+    }
+
+    students.erase(students.begin() + index);
+    cout << "student has been removed" << endl;
+}
+
+void printAllStudents() {
+    cout << "list of students:" << endl;
+    for (size_t i = 0; i < students.size(); ++i) {
+        cout << i << ": " << students[i].name << " " << students[i].surname << ", " << students[i].age << " years, " << students[i].group << ", average ball: " << students[i].average_score << endl;
+    }
+}
+
+int main() {
+    string filename = "students.txt";
+    int choice;
+
+    while (true) {
+        cout << "\nmenu:\n";
+        cout << "1. Add student\n";
+        cout << "2. Save to file\n";
+        cout << "3. Load from the file\n";
+        cout << "4. Update the student\n";
+        cout << "5. Remove student\n";
+        cout << "6. List all students\n";
+        cout << "7. Exit\n";
+        cout << "Choose action: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            addStudent();
+            break;
+        case 2:
+            saveToFile(filename);
+            break;
+        case 3:
+            loadFromFile(filename);
+            break;
+        case 4: {
+            int index;
+            cout << "enter index of the student: ";\
+            cin >> index;
+            updateStudent(index);
+            break;
+        }
+        case 5: {
+            int index;
+            cout << "enter index of the student: ";
+            cin >> index;
+            deleteStudent(index);
+            break;
+        }
+        case 6:
+            printAllStudents();
+            break;
+        case 7:
+            return 0;
+        default:
+            cout << "false choice" << endl;
+        }
+    }
+
+    return 0;
+}
